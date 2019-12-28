@@ -1,0 +1,213 @@
+{ 
+"name": "FLINK",
+"label": "Flink-Standalone",
+"description": "Apache Flink is a framework and distributed processing engine for stateful computations over unbounded and bounded data streams.",
+"version": "%VERSION%",
+"compatibility": {
+	"generation": 1,
+	"cdhVersion": {
+		"CDH_MIN": "5",
+	  	"CDH_MAX": "6"
+			}
+		},
+ "runAs": {
+	"user": "flink",
+	"group": "flink"
+			},
+"icon": "images/flink.png",
+"serviceDependencies": [{
+	"name": "YARN",
+	"required": "true"
+    },
+    {
+	"name": "HIVE",
+	"required": "false"
+    },
+    {
+      	"name": "SPARK2_ON_YARN",
+      	"required": "false"
+    },
+    {
+      	"name": "SPARK_ON_YARN",
+      	"required": "false"
+    }
+  ],
+ "parameters": [{
+	"name": "high-availability.storageDir",
+	"label": "high-availability storageDir",
+	"description": "HDFS path (URI) where Flink persists metadata in high-availability setups.",
+	"type": "string",
+	"default": "/user/flink/ha",
+	"configurableInWizard": true
+			},
+			{
+	"name": "high-availability.zookeeper.path.root",
+	"label": "high-availability zookeeper path root",
+	"description": "The root path under which Flink stores its entries in ZooKeeper.",
+	"type": "string",
+	"default": "/flink",
+	"configurableInWizard": true
+			},
+			{
+	"name": "high-availability.cluster-id",
+	"label": "high-availability cluster-id",
+	"description": "The ID of the Flink cluster, used to separate multiple Flink clusters from each other.",
+	"type": "string",			
+	"default": "cluster_standalone",
+	"configurableInWizard": true
+			},
+			{
+	"name": "state.checkpoints.dir",
+	"label": "state checkpoints dir",
+	"description": "HDFS path (URI) for checkpoints.",
+	"type": "string",
+	"default": "hdfs:///user/flink/cluster_standalone/checkpoints",
+	"configurableInWizard": true
+			},
+			{
+	"name": "state.savepoints.dir",
+	"label": "state savepoints dir",
+	"description": "HDFS path (URI) for savepoints.",
+	"type": "string",
+	"default": "hdfs:///user/flink/cluster_standalone/savepoints",
+	"configurableInWizard": true
+			},
+			{
+	"name": "parallelism.default",
+	"label": "parallelism default",
+	"description": "The parallelism used for programs that did not specify and other parallelism.",
+	"type": "long",
+	"default": 1,
+	"configurableInWizard": true
+			}],
+"hdfsDirs": [{
+	"name": "CreateFlinkUserDirCommand",
+	"label": "Create Flink User Dir",
+        "description": "Creates the Flink user directory in HDFS.",
+	"directoryDescription": "Flink HDFS user directory",
+	"path": "/user/${user}",
+	"permissions": "0751"
+			}],
+"serviceInit": {
+	"preStartSteps": [{
+	"commandName": "CreateFlinkUserDirCommand"
+			}]},
+"roles": [{
+	"name": "FLINK_MASTER",
+	"label": "Flink Master",
+	"pluralLabel": "Flink Masters",
+	"startRunner": {
+		"program": "scripts/control.sh",
+		"args": ["master"],
+		"environmentVariables": {
+		"FLINK_MASTER_HOST": "${host}",
+		"FLINK_WEB_UI_PORT": "${rest.port}",
+		"FLINK_RUN_AS_USER": "${user}"
+					}
+				},
+	"externalLink": {
+		"name": "web_dashboard",
+		"label": "Web Dashboard",
+		"url": "http://${host}:${rest.port}"
+				},
+	"parameters": [
+				{
+		"name": "jobmanager.heap.size",
+		"label": "jobmanager heap size",
+		"description": "The heap size for the JobManager JVM.",
+			"type": "string",
+			"default": "1024m",
+			"configurableInWizard": true
+				},
+				{
+		"name": "rest.port",
+		"label": "rest port",
+		"description": "The port under which the web-based runtime monitor listens.",
+		"type": "long",
+			"default": 8081,
+			"configurableInWizard": true
+				}],
+	"topology": {
+		"minInstances": 1
+				},
+	"logging": {
+		"filename": "flink-master.log",
+		"isModifiable": true,
+		"configName": "env.log.dir",
+		"loggingType": "log4j",
+		"dir": "/var/log/flink"
+				},
+	"configWriter": {
+		"generators": [{
+			"filename": "flink-conf.properties",
+			"configFormat": "properties",
+			"includeParams": [
+				"high-availability.storageDir",
+				"high-availability.zookeeper.path.root",
+				"high-availability.cluster-id",
+				"state.savepoints.dir",
+				"state.checkpoints.dir",
+				"jobmanager.heap.size",
+				"parallelism.default",
+				"rest.port"
+					]
+				}]
+			}
+	},
+	{
+	"name": "FLINK_WORKER",
+	"label": "Flink Worker",
+	"pluralLabel": "Flink Workers",
+	"startRunner": {
+	"program": "scripts/control.sh",
+		"args": ["worker"],
+		"environmentVariables": {
+			"FLINK_RUN_AS_USER": "${user}"
+					}
+				},
+	"parameters": [{
+		"name": "taskmanager.heap.size",
+		"label": "taskmanager heap size",
+		"description": "The heap size for the TaskManager JVM.",
+		"type": "string",
+		"default": "1024m",
+		"configurableInWizard": true
+			},
+		{
+		"name": "taskmanager.numberOfTaskSlots",
+		"label": "taskmanager numberOfTaskSlots",
+		"description": "The number of task slots that each TaskManager offers. Each slot runs one parallel pipeline.",
+		"type": "long",
+		"default": 1,
+		"configurableInWizard": true
+				}],
+		"topology": {
+			"minInstances": 1
+				},
+		"logging": {
+			"filename": "flink-worker.log",
+			"isModifiable": true,
+			"configName": "env.log.dir",
+			"loggingType": "log4j",
+			"dir": "/var/log/flink"
+				},
+		"configWriter": {
+			"generators": [{
+			"filename": "flink-conf.properties",
+			"configFormat": "properties",
+			"includeParams": [
+				"high-availability.storageDir",
+				"high-availability.zookeeper.path.root",
+				"high-availability.cluster-id",
+				"state.savepoints.dir",
+				"state.checkpoints.dir",
+				"taskmanager.heap.size",
+				"taskmanager.numberOfTaskSlots",
+				"parallelism.default"
+				]		
+					}]
+				}
+}]		
+}
+}
+

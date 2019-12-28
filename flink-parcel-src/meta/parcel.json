@@ -1,0 +1,36 @@
+{
+	"schema_version": 1,
+	"name": "%SERVICENAME%",
+	"version": "%VERSION%-%EXTENS_VERSION%",
+	"depends": "CDH (>= %CDH_MIN_FULL%), CDH (<< %CDH_MAX_FULL%)",
+	"setActiveSymlink": true,
+	"replaces": "FLINK",
+	"scripts": {
+        	"defines": "flink_env.sh"
+			},
+	"packages": [{
+		"name": "flink-master",
+		"version": "%VERSION%+flink%VERSION%"
+			},
+		 {
+		"name": "flink-worker",
+		"version": "%VERSION%+flink%VERSION%"
+			}],
+	"components": [{
+		"name": "flink",
+		"version": "%VERSION%-flink%VERSION%",
+		"pkg_version": "%VERSION%+flink%VERSION%",
+        	"pkg_release": "%EXTENS_VERSION%"
+			}],
+	"provides": ["%SERVICENAMELOWER%"],
+	"users": {
+		"flink": {
+		"longname": "Flink",
+		"home": "/var/lib/flink",
+		"shell": "/bin/bash",
+		"extra_groups": []
+				}
+			},
+	"groups": ["flink"]
+}
+

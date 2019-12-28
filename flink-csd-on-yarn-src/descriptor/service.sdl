@@ -1,0 +1,229 @@
+{
+	"name": "FLINK_ON_YARN",
+	"label": "Flink-yarn",
+	"description": "Apache Flink is a framework and distributed processing engine for stateful computations over unbounded and bounded data streams.",
+	"version": "%VERSION%",
+	"compatibility": {
+		"generation": 1,
+		"cdhVersion": {
+			"min": "%CDH_MIN%",
+			"max": "%CDH_MAX%"
+		}
+	},
+	"runAs": {
+		"user": "flink",
+		"group": "flink",
+		"principal":"flink"
+	},
+	"icon": "images/flink.png",
+	"serviceDependencies": [{
+		"name": "ZOOKEEPER",
+		"required": "true"
+		},
+		{
+		"name": "YARN",
+		"required": "true"
+		}],
+	"parameters": [{
+		"name": "high-availability.storageDir",
+		"label": "high-availability storageDir",
+		"description": "HDFS path (URI) where Flink persists metadata in high-availability setups.",
+		"type": "string",
+		"default": "hdfs:///user/flink/ha",
+		"configurableInWizard": true
+			},
+			{
+		"name": "high-availability.zookeeper.path.root",
+		"label": "high-availability zookeeper path root",
+		"description": "The root path under which Flink stores its entries in ZooKeeper.",
+		"type": "string",
+		"default": "/flink",
+		"configurableInWizard": true
+			},
+			{
+		"name": "high-availability.cluster-id",
+		"label": "high-availability cluster-id",
+		"description": "The ID of the Flink cluster, used to separate multiple Flink clusters from each other.",
+		"type": "string",
+		"default": "cluster_yarn",
+		"configurableInWizard": true
+			},
+			{
+		"name": "state.checkpoints.dir",
+		"label": "state checkpoints dir",
+		"description": "HDFS path (URI) for checkpoints.",
+		"type": "string",
+		"default": "hdfs:///user/flink/cluster_yarn/checkpoints",
+		"configurableInWizard": true
+			},
+			{
+		"name": "state.savepoints.dir",
+		"label": "state savepoints dir",
+		"description": "HDFS path (URI) for savepoints.",
+		"type": "string",
+		"default": "hdfs:///user/flink/cluster_yarn/savepoints",
+		"configurableInWizard": true
+			},
+			{
+		"name": "jobmanager.heap.size",
+		"label": "jobmanager heap size",
+		"description": "The heap size for the JobManager JVM.",
+		"type": "string",
+		"default": "1024m",
+		"configurableInWizard": true
+			},
+			{
+		"name": "taskmanager.heap.size",
+		"label": "taskmanager heap size",
+		"description": "The heap size for the TaskManager JVM.",
+		"type": "string",
+		"default": "1024m",
+		"configurableInWizard": true
+			},
+			{
+		"name": "taskmanager.numberOfTaskSlots",
+		"label": "taskmanager numberOfTaskSlots",
+		"description": "The number of task slots that each TaskManager offers. Each slot runs one parallel pipeline.",
+		"type": "long",
+		"default": 1,
+		"configurableInWizard": true
+			},
+			{
+		"name": "yarn.application-attempts",
+		"label": "yarn.application-attempts",
+		"description": "Number of ApplicationMaster restarts.",
+		"type": "long",
+		"default": 1,
+		"configurableInWizard": true
+			},
+			{
+		"name": "yarn.taskmanagers",
+		"label": "yarn.taskmanagers",
+		"description": "Number of YARN container to allocate (=Number of Task Managers).",
+		"type": "long",
+		"default": 1,
+		"configurableInWizard": true
+			},
+			{
+		"name": "streaming.mode",
+		"label": "streaming.mode",
+		"description": "Start Flink in streaming mode.",
+		"type": "boolean",
+		"default": true,
+		"configurableInWizard": true
+			},
+			{
+		"name": "rest.port",
+		"label": "rest port",
+		"description": "The port under which the web-based runtime monitor listens.",
+		"type": "long",
+		"default": 8081,
+		"configurableInWizard": true
+			},
+			{
+		"name": "security.kerberos.login.keytab",
+                "label": "security.kerberos.login.keytab",
+                "description": "Absolute path to a Kerberos keytab file that contains the user credentials.",
+                "type": "string",
+                "default": "/etc/keytab/flink.keytab",
+                "configurableInWizard": true	
+			},
+			{
+		"name": "security.kerberos.login.principal",
+                "label": "security.kerberos.login.principal",
+                "description": "Kerberos principal name associated with the keytab.",
+                "type": "string",
+                "default": "/etc/keytab/flink.keytab",
+                "configurableInWizard": true            
+                        },
+			{
+		"name":"security.kerberos.login.use-ticket-cache",
+		"label": "security.kerberos.login.use-ticket-cache",
+		"description": "ndicates whether to read from your Kerberos ticket cache.",
+		"type": "boolean",
+		"default": false,
+		"configurableInWizard": true
+
+	}],
+	"hdfsDirs": [{
+		"name": "CreateFlinkUserDirCommand",
+		"label": "Create Flink User Dir",
+		"description": "Creates the Flink user directory in HDFS.",
+		"directoryDescription": "Flink HDFS user directory",
+		"path": "/user/${user}",
+		"permissions": "0751"
+	}],
+	"serviceInit": {
+		"preStartSteps": [{
+			"commandName": "CreateFlinkUserDirCommand"
+		}]
+	},
+	"roles": [{
+		"name": "FLINK_YARN",
+		"label": "Flink Yarn",
+		"pluralLabel": "Flink Yarns",
+		"startRunner": {
+			"program": "scripts/control.sh",
+			"args": ["start"],
+			"environmentVariables": {
+				"FLINK_TASK_MANAGERS": "${yarn.taskmanagers}",
+				"FLINK_STREAMING_MODE": "${streaming.mode}",
+				"FLINK_RUN_AS_USER": "${user}"
+			}
+		},
+		"stopRunner": {
+			"runner": {
+				"program": "scripts/control.sh",
+				"args": ["stop"],
+				"environmentVariables": {
+					"FLINK_RUN_AS_USER": "${user}"
+				}
+			}
+		},
+		"kerberosPrincipals": [
+        		{
+          		"name": "flink_principal",
+          		"primary": "${principal}",
+          		"instance": "${host}"
+        		}
+      ],
+
+		"topology": {
+			"minInstances": 1
+		},
+		"logging": {
+			"filename": "flink-yarn.out",
+			"isModifiable": true,
+			"configName": "env.log.dir",
+			"loggingType": "log4j",
+			"dir": "/var/log/flink"
+		},
+		"configWriter": {
+			"generators": [{
+				"filename": "flink-conf.properties",
+				"configFormat": "properties",
+				"kerberosPrincipals" : [
+              				{ "principalName" : "flink_principal",
+                                          "propertyName" : "general.kerberos.principal",
+                                          "instanceWildcard" : "_HOST"}
+            				],
+				"includeParams": [	
+					"security.kerberos.login.keytab",
+					"security.kerberos.login.principal",
+					"security.kerberos.login.use-ticket-cache",
+					"high-availability.storageDir",
+					"high-availability.zookeeper.path.root",
+					"high-availability.cluster-id",
+					"state.savepoints.dir",
+					"state.checkpoints.dir",
+					"yarn.application-attempts",
+					"jobmanager.heap.size",
+					"taskmanager.heap.size",
+					"taskmanager.numberOfTaskSlots",
+					"rest.port"
+]
+			}]
+		}
+	}]
+}
+ 

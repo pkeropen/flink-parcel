@@ -1,0 +1,62 @@
+重试中。
+
+--2019-06-30 14:19:16--  (尝试次数： 6)  https://archive.apache.org/dist/flink/flink-1.6.0/flink-1.6.0-src.tgz
+正在连接 archive.apache.org (archive.apache.org)|163.172.17.199|:443... 失败：连接超时。
+重试中。
+
+--2019-06-30 14:21:29--  (尝试次数： 7)  https://archive.apache.org/dist/flink/flink-1.6.0/flink-1.6.0-src.tgz
+正在连接 archive.apache.org (archive.apache.org)|163.172.17.199|:443... 失败：连接超时。
+重试中。
+
+--2019-06-30 14:23:44--  (尝试次数： 8)  https://archive.apache.org/dist/flink/flink-1.6.0/flink-1.6.0-src.tgz
+正在连接 archive.apache.org (archive.apache.org)|163.172.17.199|:443... 失败：连接超时。
+重试中。
+
+--2019-06-30 14:25:59--  (尝试次数： 9)  https://archive.apache.org/dist/flink/flink-1.6.0/flink-1.6.0-src.tgz
+正在连接 archive.apache.org (archive.apache.org)|163.172.17.199|:443... 失败：连接超时。
+重试中。
+
+--2019-06-30 14:28:15--  (尝试次数：10)  https://archive.apache.org/dist/flink/flink-1.6.0/flink-1.6.0-src.tgz
+正在连接 archive.apache.org (archive.apache.org)|163.172.17.199|:443... 失败：连接超时。
+重试中。
+
+--2019-06-30 14:30:32--  (尝试次数：11)  https://archive.apache.org/dist/flink/flink-1.6.0/flink-1.6.0-src.tgz
+正在连接 archive.apache.org (archive.apache.org)|163.172.17.199|:443... 失败：连接超时。
+重试中。
+
+--2019-06-30 14:32:50--  (尝试次数：12)  https://archive.apache.org/dist/flink/flink-1.6.0/flink-1.6.0-src.tgz
+正在连接 archive.apache.org (archive.apache.org)|163.172.17.199|:443... 失败：连接超时。
+重试中。
+
+--2019-06-30 14:35:07--  (尝试次数：13)  https://archive.apache.org/dist/flink/flink-1.6.0/flink-1.6.0-src.tgz
+正在连接 archive.apache.org (archive.apache.org)|163.172.17.199|:443... 失败：连接超时。
+重试中。
+
+--2019-06-30 14:37:24--  (尝试次数：14)  https://archive.apache.org/dist/flink/flink-1.6.0/flink-1.6.0-src.tgz
+正在连接 archive.apache.org (archive.apache.org)|163.172.17.199|:443... 失败：连接超时。
+重试中。
+
+--2019-06-30 14:39:41--  (尝试次数：15)  https://archive.apache.org/dist/flink/flink-1.6.0/flink-1.6.0-src.tgz
+正在连接 archive.apache.org (archive.apache.org)|163.172.17.199|:443... 失败：连接超时。
+重试中。
+
+--2019-06-30 14:41:58--  (尝试次数：16)  https://archive.apache.org/dist/flink/flink-1.6.0/flink-1.6.0-src.tgz
+正在连接 archive.apache.org (archive.apache.org)|163.172.17.199|:443... 失败：连接超时。
+重试中。
+
+--2019-06-30 14:44:16--  (尝试次数：17)  https://archive.apache.org/dist/flink/flink-1.6.0/flink-1.6.0-src.tgz
+正在连接 archive.apache.org (archive.apache.org)|163.172.17.199|:443... 失败：连接超时。
+重试中。
+
+--2019-06-30 14:46:33--  (尝试次数：18)  https://archive.apache.org/dist/flink/flink-1.6.0/flink-1.6.0-src.tgz
+正在连接 archive.apache.org (archive.apache.org)|163.172.17.199|:443... 失败：连接超时。
+重试中。
+
+--2019-06-30 14:48:50--  (尝试次数：19)  https://archive.apache.org/dist/flink/flink-1.6.0/flink-1.6.0-src.tgz
+正在连接 archive.apache.org (archive.apache.org)|163.172.17.199|:443... 失败：连接超时。
+重试中。
+
+--2019-06-30 14:51:07--  (尝试次数：20)  https://archive.apache.org/dist/flink/flink-1.6.0/flink-1.6.0-src.tgz
+正在连接 archive.apache.org (archive.apache.org)|163.172.17.199|:443... 失败：连接超时。
+放弃操作。
+
