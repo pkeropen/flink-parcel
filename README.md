@@ -104,7 +104,7 @@ CDH_MAX=5
 
 打开CDH管理界面->集群->检查parcel包->flink->分配->激活
 
-(4) 点击CDH所管理的集群添加服务，在列表中找到flink，按提示添加启动并运行。
+(4) 重启CDH服务后 ，点击CDH所管理的集群添加服务，在列表中找到flink，按提示添加启动并运行。
 
 ## 说明：
 (1) 在如果集群开启了安全，需要配置security.kerberos.login.keytab和security.kerberos.login.principal两个参数才能正正常启动。如未启动kerberos,则在CDH中添加FLINK服务时请清空这两个参数的内容
