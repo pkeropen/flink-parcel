@@ -1,5 +1,5 @@
 ## 声明
-本parcel是fork下 https://github.com/gaozhangmin/flink-parcel 来修改，感谢作者的贡献，由于本人是基于CDH5.14下操作，并修改部分内容，亲测可以集成到CDH中运作。
+本parcel是fork下 https://github.com/pkeropen/flink-parcel(它fork 来自 https://github.com/gaozhangmin/flink-parcel) 来修改，感谢作者的贡献，由于本人是基于CDH6.2.1 下操作，并修改部分内容，亲测可以集成到CDH中运作。
 
 ## 导读
 CDH除了能够管理自生所提供的一些大数据相关服务外，还允许将第三方服务添加到CDH集群（托管在CDH上）。你需要做的就是按照一定的规则流程制作相关程序包，最后发布到CDH上。虽然过程并不困难，但是手动操作尤其是一些关键配置容易出错，往往导致最终服务无法正常在CDH上安装运行。
@@ -14,11 +14,11 @@ CDH除了能够管理自生所提供的一些大数据相关服务外，还允�
 
 文件名称格式为三段，第一段是包名，第二段是版本号，第三段是运行平台。
 
-例如：FLINK-1.9.1-bin-scala_2.12-el7.parcel
+例如：FLINK-1.12.7-bin-scala_2.11-el7.parcel
 
 **包名**：FLINK
 
-**版本号**：1.9.1-bin-scala_2.12
+**版本号**：1.12.7-bin-scala_2.11
 
 **运行环境**：el7
 
@@ -37,36 +37,38 @@ csd的jar包必须置于/opt/cloudera/csd/目录才可以在添加集群服务�
 
 ## flink-parcel制作过程
 
-以CDH5.14、FLINK1.9.1为例
+以CDH6.2.1、FLINK1.12.7为例
 
 (1)**下载制作包**
 
 ```
-git clone https://github.com/pkeropen/flink-parcel.git
+git clone https://github.com/ElapsedSoul/flink-parcel.git
 ```
 (2)**修改配置文件**　flink-parcel.properties
 
 
 ```
 #FLINK 下载地址
-FLINK_URL=https://mirrors.tuna.tsinghua.edu.cn/apache/flink/flink-1.9.1/flink-1.9.1-bin-scala_2.12.tgz
+FLINK_URL=https://mirrors.tuna.tsinghua.edu.cn/apache/flink/flink-1.12.7/flink-1.12.7-bin-scala_2.11.tgz
+
 
 #flink版本号
-FLINK_VERSION=1.9.1
+FLINK_VERSION=1.12.7
 
 #扩展版本号
-EXTENS_VERSION=BIN-SCALA_2.12
+EXTENS_VERSION=BIN-SCALA_2.11
 
 #操作系统版本，以centos为例
 OS_VERSION=7
 
 #CDH 小版本
 CDH_MIN_FULL=5.2
-CDH_MAX_FULL=5.15
+CDH_MAX_FULL=6.3.2
 
 #CDH大版本
 CDH_MIN=5
-CDH_MAX=5
+CDH_MAX=6
+
 
 ```
 
